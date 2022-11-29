@@ -3,7 +3,7 @@
 // 引用Jenkins内配置的Library 
 @Library('jenkinslibrary') _
 // 引用org/library/tools.groovy文件
-def tools = new org.library.tools()
+def tools = new org.library.tool()
 
 pipeline {
     agent {
