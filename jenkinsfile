@@ -1,0 +1,72 @@
+#!groovy
+
+// 引用Jenkins内配置的Library 
+@Library('jenkinslibrary') _
+// 引用org/library/tools.groovy文件
+def tools = new org.library.tools()
+
+pipeline {
+    agent {
+        node {
+            label "build-1"
+        }
+    }
+
+    stages {
+        stage('GitCode') {
+            steps {
+                timeout(time: 20, unit: "MINUTES"){
+                    script{
+                        println("代码拉取阶段")
+                        // 调用sharelibrary的方法
+                        tools.PrintMsg("This is ShareLibrary")
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                timeout(time: 20, unit: "MINUTES"){
+                    script{
+                        println("应用打包阶段")
+                    }
+                }
+            }
+        }
+        stage('CodeScan') {
+            steps {
+                timeout(time: 30, unit: "MINUTES"){
+                    script{
+                        println("代码扫码阶段")
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                println("Always")
+            }
+        }
+
+        success {
+            script {
+                currentBuild.description += "\n 构建成功！"
+            }
+        }
+
+        failure {
+            script {
+                currentBuild.description += "\n 构建失败！"
+            }
+        }
+        
+        aborted {
+            script {
+                currentBuild.description += "\n 构建取消！"
+            }
+        }
+    }
+}
