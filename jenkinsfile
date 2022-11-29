@@ -17,9 +17,9 @@ pipeline {
             steps {
                 timeout(time: 20, unit: "MINUTES"){
                     script{
-                        println("代码拉取阶段")
+                        tools.PrintMsg("拉取代码", "green")
                         // 调用sharelibrary的方法
-                        tools.PrintMsg("This is ShareLibrary")
+                        tools.PrintMsg("This is ShareLibrary", "green")
                     }
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 timeout(time: 20, unit: "MINUTES"){
                     script{
-                        println("应用打包阶段")
+                        tools.PrintMsg("打包", "green")
                     }
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 timeout(time: 30, unit: "MINUTES"){
                     script{
-                        println("代码扫码阶段")
+                        tools.PrintMsg("代码扫码", "green")
                     }
                 }
             }
@@ -47,25 +47,25 @@ pipeline {
     post {
         always {
             script {
-                println("Always")
+                tools.PrintMsg("Always", "green")
             }
         }
 
         success {
             script {
-                currentBuild.description += "\n 构建成功！"
+                tools.PrintMsg("构建成功！", "green")
             }
         }
 
         failure {
             script {
-                currentBuild.description += "\n 构建失败！"
+                tools.PrintMsg("构建失败！", "red")
             }
         }
         
         aborted {
             script {
-                currentBuild.description += "\n 构建取消！"
+                tools.PrintMsg("构建取消！", "red")
             }
         }
     }
